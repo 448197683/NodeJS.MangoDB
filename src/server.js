@@ -1,9 +1,14 @@
 import express from 'express';
+import path from 'path';
 
 const server = express();
 
+server.use(express.static('public'));
+
 server.get('/', (request, response) => {
-  return response.sendFile(__dirname + `/index.html`);
+  return response.sendFile(
+    path.join(__dirname, '..', 'public', 'html', 'index.html')
+  );
 });
 
 server.listen(8080, () => {
