@@ -1,10 +1,13 @@
 import express, { response } from 'express';
-import { request } from 'http';
 import path from 'path';
+import logger from 'morgan';
 
 const server = express();
 
+server.use(logger('dev'));
 server.use(express.static('public'));
+server.use(express.urlencoded({ extended: true }));
+server.use(express.json());
 
 server.get('/', (request, response) => {
   return response.sendFile(
@@ -13,7 +16,6 @@ server.get('/', (request, response) => {
 });
 
 server.get('/write', (request, response) => {
-  console.log(request);
   return response.sendFile(
     path.join(__dirname, '..', 'public', 'html', 'write.html')
   );
@@ -22,8 +24,6 @@ server.get('/write', (request, response) => {
 server.post('/write', (request, response) => {
   console.log(request.body);
 });
-
-//如何查到post的方式
 
 server.listen(8080, () => {
   console.log(`Server is listening on 8080`);
